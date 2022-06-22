@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  workspace:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    container_name: workspace
+    tty: true
+
+  influxdb:
+    image: influxdb:2.3
+    container_name: influxdb
+    volumes:
+      - influxdb2-data:/var/lib/influxdb2
+    ports:
+      - "8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=pass
+      - DOCKER_INFLUXDB_INIT_ORG=org
+      - DOCKER_INFLUXDB_INIT_BUCKET=bucket
+
+volumes:
+  influxdb2-data:
